@@ -32,9 +32,7 @@ public class InputActivity extends AppCompatActivity {
             String mood = mv.getText().toString();
 
             JournalEntry addEntry = new JournalEntry(title, content, mood);
-
             EntryDatabase db = EntryDatabase.getInstance(getApplicationContext());
-
             db.insert(addEntry);
 
             Intent intentInput = new Intent(InputActivity.this, MainActivity.class);

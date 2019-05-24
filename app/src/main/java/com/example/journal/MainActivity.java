@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = EntryDatabase.getInstance(getApplicationContext());
         Cursor cursor = db.selectAll();
+
         adapter = new EntryAdapter(this, R.layout.entry_row, cursor);
         ListView listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
@@ -57,34 +58,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public class ListItemClickListener implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
             Log.d("check", "checkcheck");
-
             Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
-
             String title = cursor.getString(cursor.getColumnIndex("title"));
-
-            String date = cursor.getString(cursor.getColumnIndex("date"));
-
+            String date = cursor.getString(cursor.getColumnIndex("timestamp"));
             String mood = cursor.getString(cursor.getColumnIndex("mood"));
-
             String content = cursor.getString(cursor.getColumnIndex("content"));
-
             Intent intentDetail = new Intent(MainActivity.this, DetailActivity.class);
-
             intentDetail.putExtra("title", title);
-
             intentDetail.putExtra("mood", mood);
-
             intentDetail.putExtra("content", content);
-
             intentDetail.putExtra("date", date);
-
             startActivity(intentDetail);
         }
     }
@@ -94,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
+            Log.d("waw", "wawaw");
 
+            Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
             int IDdel = cursor.getInt(cursor.getColumnIndex("_id"));
 
             EntryDatabase db = EntryDatabase.getInstance(getApplicationContext());
-
             db.delete(IDdel);
+
             updateData();
             return true;
         }
